@@ -2,7 +2,6 @@
 
 //app.js에서 실행시킨다
 const express = require("express");
-const { appendFileSync } = require("fs");
 const app = express();
 
 const port = 3000;
@@ -16,3 +15,13 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
     console.log(`${port}번 포트에서 서버 실행중`);
 });
+
+//package.json의 scripts 명령을 활용하기
+//명령어 > npm start
+//"scripts" : {
+// "test" : "echo ...",
+// "start" : "nodemon app.js"
+//}
+
+//URL 요청 : 웹브라우저에서 HTTP Client 프로그램(POSTMAN, Thunder Client VS코드 확장)
+// HTTP Client : 웹서버와 클라이언트간의 통신을 원활하게 테스트하는 용도.
