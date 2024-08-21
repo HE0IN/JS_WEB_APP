@@ -5,7 +5,8 @@ const { getAllContacts,
         getContact,
         updateContact,
         deleteContact,
-        addContactFrom  //연락처 추가폼
+        addContactFrom,  //연락처 추가폼
+
         } = require("../controller/contactController"); //컨트롤러 분리
 
 
@@ -14,7 +15,9 @@ const { getAllContacts,
 router.route("/").get( getAllContacts);
 // localhost:3000/contacts/add
 router.route("/add").get(addContactFrom).post(createContact);
+// localhost:3000/contacts/:id/edit
+router.route("/:id/edit").get(editContactForm);
 // localhost:3000/contacts/:id
-router.route("/:id").get(getContact).put(updateContact).delete(deleteContact)
+router.route("/:id").get(getContact).post(updateContactAction).delete(deleteContact);
 
 module.exports = router;

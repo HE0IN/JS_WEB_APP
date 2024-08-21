@@ -40,7 +40,7 @@ const createContact = asyncHandler(async (req, res) => {
 // @route GET /contacts/:id
 const getContact = asyncHandler( async (req, res) => {
     const contact = await Contact.findById(req.params.id);
-    res.render("update-3", {contact : contact}) //PUT방식 요청하기
+    res.render("update-1", {contact : contact})
 });
 
 // @desc 연락처 수정하기 액션(UI없이 DB동작만함)
@@ -53,8 +53,9 @@ const updateContact = asyncHandler( async (req, res) => {
         id,
         {name, email, phone}, 
         {new : true} // 수정한 후의 도큐먼트로 반환 해주는 옵션
-    );
-    res.redirect("/contacts");
+    )
+
+    res.status(200).send( updateContact );
 });
 
 // @desc 연락처 삭제하기
@@ -71,4 +72,36 @@ const deleteContact = asyncHandler( async (req, res) => {
 
 });
 
-module.exports = { getAllContacts, createContact, getContact, updateContact, deleteContact, addContactFrom };
+// @desc 연락처 수정 폼
+// @route GET /contacts/:id/edit
+const editContactForm = asyncHandler(async (req, res) => {
+    const contact = await Contact.findById(req.params.id);
+    if (!contact) {
+        res.status(404);
+        throw new Error("연락처를 찾을 수 없습니다.");
+    }
+    res.render("update-1", { contact });
+});
+
+// @desc 연락처 수정하기 액션(UI없이 DB동작만함)
+// @route POST /contacts/:id
+const updateContactAction = asyncHandler(async (req, res) => {
+    const id = req.params.id;
+    const { name, email, phone } = req.body;
+
+    const contact = await Contact.findByIdAndUpdate(
+        id,
+        { name, email, phone },
+        { new: true, runValidators: true }
+    );
+
+    if (!contact) {
+        res.status(404);
+        throw new Error("연락처를 찾을 수 없습니다.");
+    }
+
+    // 수정 후 리스트 화면으로 이동
+    res.redirect("/contacts");
+});
+
+module.exports = { getAllContacts, createContact, getContact, updateContact, deleteContact, addContactFrom, editContactForm, updateContactAction };

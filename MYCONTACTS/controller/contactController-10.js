@@ -9,14 +9,7 @@ const Contact = require("../models/contactModel");
 const getAllContacts = asyncHandler(async (req, res) => {
     const contacts = await Contact.find();
     // 헤더와 푸터를 나눈
-    res.render("index-3", {contacts : contacts}); 
-});
-
-// @desc 연락처 추가폼
-// @route GET/add
-const addContactFrom = asyncHandler(async (req, res) => {
-    const contacts = await Contact.find(); // 모든 연락처를 가져옴
-    res.render("add-2", { contacts }); // add-1.ejs에 contacts 데이터를 전달
+    res.render("index-2", {contacts : contacts}); 
 });
 
 // @desc 새 연락처 추가하기
@@ -32,18 +25,18 @@ const createContact = asyncHandler(async (req, res) => {
         email,
         phone
     });
-    // 새 연락처 추가 후에 리스트 화면으로 이동하기
-    res.redirect("/contacts");
+    res.status(200).send("새 연락처 추가");
 });
 
-// @desc 연락처 상세보기 => 업데이트 화면으로 상세보기
+// @desc 연락처 상세보기
 // @route GET /contacts/:id
 const getContact = asyncHandler( async (req, res) => {
     const contact = await Contact.findById(req.params.id);
-    res.render("update-3", {contact : contact}) //PUT방식 요청하기
+    // const contact = await Contact.findByOne({name : name});
+    res.status(200).send(contact);
 });
 
-// @desc 연락처 수정하기 액션(UI없이 DB동작만함)
+// @desc 연락처 수정하기
 // @route PUT /contacts/:id
 const updateContact = asyncHandler( async (req, res) => {
     // res.status(200).send(`연락처 수정하기 ID : ${req.params.id}`);
@@ -53,8 +46,9 @@ const updateContact = asyncHandler( async (req, res) => {
         id,
         {name, email, phone}, 
         {new : true} // 수정한 후의 도큐먼트로 반환 해주는 옵션
-    );
-    res.redirect("/contacts");
+    )
+
+    res.status(200).send( updateContact );
 });
 
 // @desc 연락처 삭제하기
@@ -71,4 +65,4 @@ const deleteContact = asyncHandler( async (req, res) => {
 
 });
 
-module.exports = { getAllContacts, createContact, getContact, updateContact, deleteContact, addContactFrom };
+module.exports = { getAllContacts, createContact, getContact, updateContact, deleteContact };

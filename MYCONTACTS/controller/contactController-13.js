@@ -40,7 +40,8 @@ const createContact = asyncHandler(async (req, res) => {
 // @route GET /contacts/:id
 const getContact = asyncHandler( async (req, res) => {
     const contact = await Contact.findById(req.params.id);
-    res.render("update-3", {contact : contact}) //PUT방식 요청하기
+    // res.render("update-1", {contact : contact})
+    res.render("update-2", {contact : contact})
 });
 
 // @desc 연락처 수정하기 액션(UI없이 DB동작만함)
@@ -53,8 +54,9 @@ const updateContact = asyncHandler( async (req, res) => {
         id,
         {name, email, phone}, 
         {new : true} // 수정한 후의 도큐먼트로 반환 해주는 옵션
-    );
-    res.redirect("/contacts");
+    )
+
+    res.status(200).send( updateContact );
 });
 
 // @desc 연락처 삭제하기

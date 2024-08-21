@@ -1,20 +1,15 @@
-// 연락처 수정하기2
-// 폼에서 PUT 요청방식 사용하기 - method-override 미들웨어
+// 연락처 추가하기
+// 
 
-// method-override 미들웨어설치
-// npm i method-override
 
 // 관련파일
 // ./routes/contactRoutes-5.js
-// ./controllers/contactController-14.js
-// ./views/index-3.ejs
+// ./controllers/contactController-12.js
+// ./views/index-2.ejs
 // ./views/add-2.ejs
-// ./views/update-3.ejs PUT요청하기
-
 
 const express = require("express");
 const dbConnect = require("./config/dbConnect");
-const methodOverride = require("method-override");
 
 const app = express();
 
@@ -25,9 +20,7 @@ app.set("Views", "./views");
 const port = 3000;
 
 // public 폴더
-app.use(express.static("./public"));
-// method-override 미들웨어 등록
-app.use(methodOverride("_method"));
+app.use(express.static("./public"))
 
 
 dbConnect();
